@@ -12,12 +12,10 @@ namespace CodingChallenge.Controllers
 
 
 		[HttpGet]
-		public  ActionResult GetCarData()
+		public ActionResult GetCarData([FromQuery] string carBrand = "", [FromQuery] string carType = "", [FromQuery] string transmission = "")
 		{
 
-			var filteredData = CarData.GetCarFilteredData();
-
-
+			var filteredData = CarData.GetCarFilteredData(carBrand, carType, transmission);
 
 			return Ok(filteredData);
 		}

@@ -20,27 +20,36 @@ namespace CodingChallenge
 			return CarData;
 		}
 
-		public static string[][] GetCarFilteredData()
+		public static string[][] GetCarFilteredData(string carBrand, string carType, string transmission)
 		{
 			var CarData = GetCarData();
-			string[][] Data = new string[CarData.Length][];
 
-			Data[0] = CarData[0]; 
+			var filteredCars = CarData.Where(car =>
+			   (string.IsNullOrEmpty(carBrand) || car[0].Equals(carBrand, StringComparison.OrdinalIgnoreCase)) &&
+			   (string.IsNullOrEmpty(carType) || car[1].Equals(carType, StringComparison.OrdinalIgnoreCase)) &&
+			   (string.IsNullOrEmpty(transmission) || car[2].Equals(transmission, StringComparison.OrdinalIgnoreCase))
+		   ).ToArray();
 
-			for (int i = 1; i < CarData.Length; i++)
+
+			string[][] Data = new string[filteredCars.Length][];
+
+
+			Data[0] = filteredCars[0];
+
+			for (int i = 1; i < filteredCars.Length; i++)
 			{
-				string[] Car = new string[CarData[i].Length];
+				string[] Car = new string[filteredCars[i].Length];
 
-				for (int j = 0; j < CarData[i].Length; j++)
+				for (int j = 0; j < filteredCars[i].Length; j++)
 				{
 
-					if (CarData[i][j] == CarData[i - 1][j])
+					if (filteredCars[i][j] == filteredCars[i - 1][j])
 					{
 						Car[j] = string.Empty;
 					}
 					else
 					{
-						Car[j] = CarData[i][j];
+						Car[j] = filteredCars[i][j];
 					}
 				}
 				Data[i] = Car;
@@ -51,6 +60,7 @@ namespace CodingChallenge
 			return Data;
 
 		}
+
 
 
 
